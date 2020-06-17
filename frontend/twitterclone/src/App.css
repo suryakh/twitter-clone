@@ -18,5 +18,7 @@ input:focus + label{
   color: #4d90cf;
 }
 
-
+#fileUpload {
+  display: none;
+}
 
