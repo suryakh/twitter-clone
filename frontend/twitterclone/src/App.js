@@ -10,7 +10,8 @@ export class App extends Component {
   render() {
     return (
       <div className="App">
-      {!this.props.userInfo.loginStatus && <Login />}
+      {/* {!this.props.userInfo.loginStatus && <Login />} */}
+      {!this.props.userInfo.loginStatus && <Route path="/login" exact render={(props) => <Login {...props} />} />}
       {this.props.userInfo.loginStatus && <Router />}
     </div>
     )

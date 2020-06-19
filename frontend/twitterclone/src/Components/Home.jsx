@@ -1,49 +1,33 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHouseUser, faUserAlt } from '@fortawesome/free-solid-svg-icons'
+import { faImage } from '@fortawesome/free-solid-svg-icons'
 
 
 export class Home extends Component {
     render() {
         console.log(this.props.userInfo)
         return (
-            <div className="container-fluid">
-                Home
-                {/* <div className="row">
-                    <div className="col-4 border">
-                        <div className="row">
-                            <div className="col-6">
-                            </div>
-                            <div className="col-6">
-                                <div className="col-12"><div className="row">
-                                    <div className="m-3">
-                                    <img style={{ height: "25px" }} src={'/twitterlogo.png'} />
-                                    </div>
-                                    <div></div>
-
-                                </div></div>
-                                <div className="col-12 mt-1">
-                                <div className="menuBtn">
-                                <pre><h4><FontAwesomeIcon icon ={faHouseUser}/>  Home</h4></pre>
-                                </div>
-                                </div>
-                                <div className="col-12 mt-1">
-                                    <div className="menuBtn">
-                                    <pre><h4><FontAwesomeIcon icon ={faUserAlt}/>  Profile</h4></pre>
-                                </div></div>
+            // <div className="container-fluid">
+            <>
+                <div className="row border pt-3">
+                    <h4>Home</h4>
+                </div>
+                <div className="row tweetDiv pt-4">
+                    <div className="col-1 p-1">
+                        <img style={{ height: "50px", borderRadius: "50%" }} src={'/profile.jpeg'} />
+                    </div>
+                    <div className="col-11">
+                        <input type="text" placeholder="What's happening?" />
+                        <div className="col-12">
+                            <div className="row">
+                                <div className="mt-4 col-10"><FontAwesomeIcon icon={faImage} /> </div>
+                                <div className="mt-4 col-2"> <button className="btn btn-primary rounded-pill">Tweet</button></div>
                             </div>
                         </div>
-
                     </div>
-                    <div className="col-4 border">
-                    </div>
-                    <div className="col-4 border"></div>
                 </div>
-
-                <Link to="/login">Login</Link> */}
-            </div>
+            </>
         )
     }
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { signupUser } from '../Redux/Actions'
 
 export class Signup extends Component {
     constructor(props) {
@@ -38,10 +39,10 @@ export class Signup extends Component {
                 this.setState({ image: e.target.result })
             }
             fr.readAsDataURL(e.target.files[0])
+            this.setState({
+                Profile: e.target.files[0]
+            })
         }
-        this.setState({
-            Profile: e.target.files[0]
-        })
     }
     handleSubmit = () => {
         let formData = new FormData()
@@ -50,7 +51,7 @@ export class Signup extends Component {
         formData.append("email", this.state.email)
         formData.append("password", this.state.password)
         formData.append('userBio', this.state.userBio)
-        console.log(this.state)
+
         this.setState({
             step: 1,
             name: "",
@@ -60,10 +61,11 @@ export class Signup extends Component {
             image: "",
             userBio: "",
         })
-        alert("successfully updated")
+        this.props.signupUser(formData)
     }
 
     render() {
+        console.log(this.state.Profile)
         switch (this.state.step) {
             case 1:
                 return (<div className="p-4" style={{ height: "700px"}}><Form1 nextStep={this.nextStep} prevStep={this.prevStep} handleChange={this.handleChange} email={this.state.email} name={this.state.name} />
@@ -94,9 +96,13 @@ const mapStateToProps = (state) => ({
 
 })
 
-const mapDispatchToProps = {
-
+const mapDispatchToProps = dispatch=> {
+    return {
+        signupUser: (data) => dispatch(signupUser(data))
+    }
 }
+
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup)
 
