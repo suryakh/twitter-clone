@@ -66,12 +66,12 @@ export class Signup extends Component {
     render() {
         switch (this.state.step) {
             case 1:
-                return (<div className="p-4" style={{ height: "700px" }}><Form1 nextStep={this.nextStep} prevStep={this.prevStep} handleChange={this.handleChange} email={this.state.email} name={this.state.name} />
+                return (<div className="p-4" style={{ height: "700px"}}><Form1 nextStep={this.nextStep} prevStep={this.prevStep} handleChange={this.handleChange} email={this.state.email} name={this.state.name} />
                 </div>)
 
             case 2: {
                 return (
-                    <div className="p-4" style={{ height: "700px" }}>
+                    <div className="p-4" style={{ height: "700px"}}>
                         <Form2 nextStep={this.nextStep} prevStep={this.prevStep} handleChange={this.handleChange} password={this.state.password} />
                     </div>
                 )
@@ -82,7 +82,7 @@ export class Signup extends Component {
                 )
             }
             case 4: {
-                return (<div className="p-4" style={{ height: "700px" }}><Form4 nextStep={this.nextStep} prevStep={this.prevStep} userBio={this.state.userBio} handleChange={this.handleChange} handleSubmit={this.handleSubmit} />
+                return (<div className="p-4" style={{ height: "700px",borderRadius:"50%" }}><Form4 nextStep={this.nextStep} prevStep={this.prevStep} userBio={this.state.userBio} handleChange={this.handleChange} handleSubmit={this.handleSubmit} />
                 </div>
                 )
             }

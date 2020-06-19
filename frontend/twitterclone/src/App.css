@@ -22,3 +22,18 @@ input:focus + label{
   display: none;
 }
 
+.menuBtn {
+  display:flex;
+  flex-direction: row;
+}
+.menuBtn  h4 {
+  padding: 10px 15px;
+}
+
+.menuBtn:hover   h4 {
+  background-color: #a9c1e9a4;
+  color: #3ca2f2;
+  border-radius: 30px;
+  /* padding: 10px; */
+
+}

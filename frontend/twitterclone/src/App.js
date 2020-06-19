@@ -1,14 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import './App.css';
+import {Route } from 'react-router-dom'
+import  Login from './Components/Login'
 import Router from './Routers/Router';
 
-function App() {
-  return (
-    <div className="App">
-      <Router />
+
+export class App extends Component {
+  render() {
+    return (
+      <div className="App">
+      {!this.props.userInfo.loginStatus && <Login />}
+      {this.props.userInfo.loginStatus && <Router />}
     </div>
-  );
+    )
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  userInfo: state.userReducer
+})
+
+const mapDispatchToProps = {
+  
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

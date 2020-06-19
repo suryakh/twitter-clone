@@ -25,7 +25,7 @@ export class Login extends Component {
                                 <label>Password</label>
                             </div>
                             <div className="mt-5">
-                                <button className="col-12 btn btn-primary rounded-pill">Login</button>
+                                <button className="col-12 btn btn-primary rounded-pill" onClick={this.handleClick}>Login</button>
                             </div>
                             <div className="m-4">
                                 <Link data-toggle="modal" data-target="#sigup"><p>signup for Twitter</p></Link>
@@ -38,7 +38,7 @@ export class Login extends Component {
 
                 <div className="modal fade" id="sigup" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div className="modal-dialog modal-dialog-centered" role="document">
-                        <div className="modal-content">
+                        <div className="modal-content" style={{ borderRadius: "20px" }}>
                             <Signup />
                         </div>
                     </div>
