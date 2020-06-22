@@ -17,6 +17,8 @@ def myroute():
     return "hello"
 
 from Blueprint_auth import auth
+from Blueprint_profileData import profileData
 
 
 app.register_blueprint(auth,url_prefix="/auth")
+app.register_blueprint(profileData,url_prefix="/profile")

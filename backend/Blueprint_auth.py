@@ -26,16 +26,19 @@ def register():
         print("hhhh")
         imagename = request.files['image']
         randomname = randomString()
-        destination = "#".join ([randomname,imagename.filename])
+        destination = "_".join ([randomname,imagename.filename])
         location = "static/profiles/"+destination
         imagename.save(location)
     else:
         destination = "default.jpeg"
     password_hash = hasing(password + str(salt))
+    num = random.randint(0,99999)
+    uniqueUserName = userName+str(num)
+    print(uniqueUserName)
     cursor = mysql.connection.cursor()
     cursor.execute(
-        """INSERT INTO users (username, email, salt, password_hash,userBio,image,joinTime)
-        VALUES (%s, %s, %s, %s,%s ,%s,now())""", (userName, email, salt, password_hash,userBio,destination)
+        """INSERT INTO users (username, email, salt, password_hash,userBio,image,joinTime,uniqueUserName)
+        VALUES (%s, %s, %s, %s,%s ,%s,CURDATE(),%s)""", (userName, email, salt, password_hash,userBio,destination,uniqueUserName)
     )
     mysql.connection.commit()
     cursor.close()
@@ -56,7 +59,7 @@ def login():
         password_hash = hasing(password+str(salt))
         if password_hash == user["password_hash"]:
             encode_Data = jwt.encode({"id":user["id"]},'users',algorithm= 'HS256').decode('utf-8')
-            return json.dumps({"token":str(encode_Data),"username":user["userName"]})
+            return json.dumps({"token":str(encode_Data),"username":user["userName"],"image":user["image"],"uniqueName":user["uniqueUserName"]})
         else:
             return json.dumps({"message":"invalid input"}),400 
     else:

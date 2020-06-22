@@ -56,10 +56,36 @@ input:focus + label{
   margin-left: 5px;
   margin-top: -75px;
 }
-.logout {
+
+
+.dropbtn {
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown {
   width: 300px;
-  position: fixed;
   bottom: 0;
+  position: fixed;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  padding: 10px;
+  border-radius: 10px;
+  bottom: 80px;
+}
+
+/* .dropdown-content a {
+  display: block;
+} */
+
+.dropdown-content:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+  display: block;
 }
 /* div {
   border: 1px solid black;

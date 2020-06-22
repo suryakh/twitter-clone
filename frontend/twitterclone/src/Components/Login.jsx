@@ -25,7 +25,6 @@ export class Login extends Component {
         this.props.loginUser (formData)
     }
     render() {
-        if(!this.props.userInfo.loginStatus){
         return (
             <>
                 <div className="container-fluid">
@@ -65,12 +64,6 @@ export class Login extends Component {
                 </div>
             </>
         )
-    }
-    else {
-        return (
-            <Redirect to ="/" />
-        )
-    }
 }
 
 }
