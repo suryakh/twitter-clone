@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT, USER_PROFILE, UNFOLLOWERS, REQUESTSENT } from "./Actions_types"
+import { LOGIN, LOGOUT, USER_PROFILE, UNFOLLOWERS, REQUESTSENT, FOLLOW ,FOLLOWING_USERS } from "./Actions_types"
 
 const initialuUserState = {
     loginStatus: false,
@@ -11,6 +11,7 @@ const initialuUserState = {
 const appDataState = {
     userProfile: {},
     unfollowers: [],
+    followingUsers:[],
     profileEdit: false
 
 }
@@ -93,6 +94,19 @@ const dataReducers = (state = appDataState, action) => {
             return {
                 ...state,
                 profileEdit: false
+            }
+        }
+        case FOLLOW: {
+            let temp = state.unfollowers.filter((ele) => ele.id !== action.payload)
+            return {
+                ...state,
+                unfollowers: temp
+            }
+        }
+        case FOLLOWING_USERS:{
+            return {
+                ...state,
+                followingUsers:action.payload
             }
         }
 

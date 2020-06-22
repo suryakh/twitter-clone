@@ -7,9 +7,7 @@ import { Redirect } from 'react-router-dom'
 
 export class Home extends Component {
     render() {
-        if(!this.props.userInfo.loginStatus){
-            console.log("hello")
-        }
+        console.log(this.props.userInfo)
         return (
             <>
                 <div className="row border pt-3">

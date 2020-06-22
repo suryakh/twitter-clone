@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { userDetails } from '../Redux/Actions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage, faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
@@ -16,14 +17,14 @@ export class Profile extends Component {
     componentDidMount() {
         this.props.userDetails(this.props.match.params.id, this.props.userInfo.token)
     }
-    componentDidUpdate(prevProps,prevState){
-        if(prevProps.match.params.id !== this.props.match.params.id){
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.match.params.id !== this.props.match.params.id) {
             // console.log(prevProps.match.params.id,"fsdfafsdf",this.props.match.params.id)
-        this.props.userDetails(this.props.match.params.id, this.props.userInfo.token)
+            this.props.userDetails(this.props.match.params.id, this.props.userInfo.token)
         }
     }
     render() {
-        
+
         return (
             <>
                 <div className="row border pt-3">
@@ -49,7 +50,7 @@ export class Profile extends Component {
                         </div>
                     </div>
                     <div className="col-7 ">
-                        {this.props.appdata.profileEdit ? <button className="float-right btn btn-outline-primary rounded-pill mt-4">Edit Profile</button> :<button className="float-right btn btn-outline-primary rounded-pill mt-4">follow</button>}
+                        {this.props.appdata.profileEdit ? <button className="float-right btn btn-outline-primary rounded-pill mt-4">Edit Profile</button> : <button className="float-right btn btn-outline-primary rounded-pill mt-4">follow</button>}
                     </div>
                 </div>
                 <div className="row border">
@@ -63,16 +64,16 @@ export class Profile extends Component {
                             </div>
                             <div className="col-6 border">
                                 <div className="row">
-                                    <div className="col-3" style={{ fontSize: "25px" }}><FontAwesomeIcon icon={faCalendarAlt} /></div> <div><p> joined {this.props.appdata.userProfile. joinTime}</p></div>
+                                    <div className="col-3" style={{ fontSize: "25px" }}><FontAwesomeIcon icon={faCalendarAlt} /></div> <div><p> joined {this.props.appdata.userProfile.joinTime}</p></div>
                                 </div>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-5 float-left">
-                                <h6>0 followers</h6>
+                                <h6>{`${this.props.appdata.userProfile.follows} followers`}</h6>
                             </div>
                             <div className="col-5 float-left">
-                                <h6>0 following</h6>
+                                <Link to={`/${this.props.appdata.userProfile.uniqueUserName}/following`}><h6>{`${this.props.appdata.userProfile.following} following`}</h6></Link>
                             </div>
                         </div>
 

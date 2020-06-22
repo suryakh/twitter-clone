@@ -53,6 +53,7 @@ def login():
     """select * from users where email= %s""",(email,)
     )
     results = cursor.fetchone()
+    cursor.close()
     if results != None:
         user = results
         salt = user["salt"]
