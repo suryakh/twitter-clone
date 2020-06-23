@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { LOGIN, LOGOUT, USER_PROFILE, UNFOLLOWERS ,REQUESTSENT ,FOLLOW ,FOLLOWING_USERS} from './Actions_types'
+import { LOGIN, LOGOUT, USER_PROFILE, UNFOLLOWERS, REQUESTSENT, FOLLOW, FOLLOWING_USERS, FOLLOWERS } from './Actions_types'
 
 
 const login = (data) => {
@@ -25,46 +25,52 @@ const unfollowers = (data) => {
         payload: data
     }
 }
-const apirequestsent = () =>{
+const apirequestsent = () => {
     return {
-        type:REQUESTSENT
+        type: REQUESTSENT
     }
 }
-const followUser = (id)=>{
+const followUser = (id) => {
     return {
-        type:FOLLOW,
-        payload:id
+        type: FOLLOW,
+        payload: id
     }
 }
-const followingUsersData = (data)=>{
+const followers = (data) => {
     return {
-        type:FOLLOWING_USERS,
-        payload:data
+        type: FOLLOWERS,
+        payload: data
     }
 }
-const follow = (id,token)=>{
-    return dispatch =>{
+const followingUsersData = (data) => {
+    return {
+        type: FOLLOWING_USERS,
+        payload: data
+    }
+}
+const follow = (id, token) => {
+    return dispatch => {
         axios({
-            method:"POST",
-            url:`http://localhost:5000/profile/follow/${id}`,
+            method: "POST",
+            url: `http://localhost:5000/profile/follow/${id}`,
             headers: {
                 'Authorization': token
             },
         })
-        .then((res)=>dispatch(followUser(id)))
+            .then((res) => dispatch(followUser(id)))
     }
 }
-const followingProfiles = (token,id)=>{
-return dispatch => {
-    axios({
-        method:"GET",
-        url:`http://localhost:5000/profile/following/${id}`,
-        headers: {
-            'Authorization': token
-        },
-    })
-    .then((res)=>dispatch(followingUsersData(res.data.usersData)))
-}
+const followingProfiles = (token, id) => {
+    return dispatch => {
+        axios({
+            method: "GET",
+            url: `http://localhost:5000/profile/following/${id}`,
+            headers: {
+                'Authorization': token
+            },
+        })
+            .then((res) => dispatch(followingUsersData(res.data.usersData)))
+    }
 }
 const signupUser = (data) => {
     return dispatch => {
@@ -115,4 +121,17 @@ const getUnFollowedUsers = (token) => {
     }
 }
 
-export { signupUser, loginUser, logout, userDetails, getUnFollowedUsers,follow,followingProfiles }
+const followersData = (token, id) => {
+    return dispatch => {
+        axios({
+            methods: "GET",
+            url: `http://localhost:5000/profile/followers/${id}`,
+            headers: {
+                'Authorization': token
+            },
+        })
+        .then((res) => dispatch(followers(res.data.usersData)))
+    }
+}
+
+export { signupUser, loginUser, logout, userDetails, getUnFollowedUsers, follow, followingProfiles, followersData }

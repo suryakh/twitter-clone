@@ -70,7 +70,7 @@ export class Profile extends Component {
                         </div>
                         <div className="row">
                             <div className="col-5 float-left">
-                                <h6>{`${this.props.appdata.userProfile.follows} followers`}</h6>
+                                <Link to={`/${this.props.appdata.userProfile.uniqueUserName}/followers`}><h6>{`${this.props.appdata.userProfile.follows} followers`}</h6></Link>
                             </div>
                             <div className="col-5 float-left">
                                 <Link to={`/${this.props.appdata.userProfile.uniqueUserName}/following`}><h6>{`${this.props.appdata.userProfile.following} following`}</h6></Link>

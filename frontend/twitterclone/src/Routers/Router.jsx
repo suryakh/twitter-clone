@@ -9,6 +9,7 @@ import { faHouseUser, faUserAlt, faHashtag } from '@fortawesome/free-solid-svg-i
 import Profile from '../Components/Profile'
 import Explore from '../Components/Explore'
 import Followingprofiles from '../Components/Followingprofiles'
+import Followers from '../Components/Followers'
 
 
 
@@ -78,6 +79,8 @@ export class Router extends Component {
                                 <Route path="/profile/:id" exact render={(props) => <Profile {...props} />} />
                                 <Route path="/explore" exact render={(props) => <Explore {...props} />} />
                                 <Route path="/:id/following" exact render={(props) => <Followingprofiles {...props} />} />
+                                <Route path="/:id/followers" exact render={(props) => <Followers {...props} />} />
+
                             </Switch>
 
                         </>

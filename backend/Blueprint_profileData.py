@@ -90,3 +90,24 @@ def following(id):
         return jsonify({"usersData":result})
     except:
         return json.dumps({"message": "some error occurs"}), 400
+    
+@profileData.route("/followers/<id>",methods=["GET"])
+def followers(id):
+    token = request.headers.get('Authorization')
+    encoded_Data = token.split(' ')[0]
+    try:
+        userData = jwt.decode(encoded_Data,'users',algorithms=['HS256'])
+        cursor = mysql.connection.cursor()
+        cursor.execute(
+            """select id from users where uniqueUserName = %s""",(id,)
+        )
+        userId = cursor.fetchone()
+        print(id)
+        cursor.execute(
+            """select id,userName,uniqueUserName,image from users where users.id in (select userID from followers where followersID = %s) and users.id != %s""",(userId["id"],userId["id"])
+        )
+        result = cursor.fetchall()
+        cursor.close()
+        return jsonify({"usersData":result})
+    except:
+        return json.dumps({"message": "some error occurs"}), 400
