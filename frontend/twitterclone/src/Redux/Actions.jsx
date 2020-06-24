@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { LOGIN, LOGOUT, USER_PROFILE, UNFOLLOWERS, REQUESTSENT, FOLLOW, FOLLOWING_USERS, FOLLOWERS } from './Actions_types'
+import { LOGIN, LOGOUT, USER_PROFILE, UNFOLLOWERS, REQUESTSENT, FOLLOW, FOLLOWING_USERS, FOLLOWERS ,TWEETS ,PROFILE_LINE_TWEETS} from './Actions_types'
 
 
 const login = (data) => {
@@ -46,6 +46,18 @@ const followingUsersData = (data) => {
     return {
         type: FOLLOWING_USERS,
         payload: data
+    }
+}
+const tweetsData = (data) =>{
+    return {
+        type:TWEETS,
+        payload:data
+    }
+}
+const getLoginUserTweets = (id) =>{
+    return {
+        type:PROFILE_LINE_TWEETS,
+        payload:id
     }
 }
 const follow = (id, token) => {
@@ -124,14 +136,41 @@ const getUnFollowedUsers = (token) => {
 const followersData = (token, id) => {
     return dispatch => {
         axios({
-            methods: "GET",
+            method: "GET",
             url: `http://localhost:5000/profile/followers/${id}`,
             headers: {
                 'Authorization': token
             },
         })
-        .then((res) => dispatch(followers(res.data.usersData)))
+            .then((res) => dispatch(followers(res.data.usersData)))
     }
 }
 
-export { signupUser, loginUser, logout, userDetails, getUnFollowedUsers, follow, followingProfiles, followersData }
+const postTheTweet = (token, data) => {
+    return dispatch => {
+        axios({
+            method: "POST",
+            url: "http://localhost:5000/tweet/post",
+            headers: {
+                'Authorization': token
+            },
+            data: data
+        })
+            .then((res) => console.log(res))
+    }
+}
+
+const getAllTweets = (token) =>{
+    return dispatch => {
+        axios ({
+            method:"GET",
+            url:"http://localhost:5000/tweet/alltweets",
+            headers:{
+                'Authorization': token
+            }
+        })
+        .then((res)=>dispatch(tweetsData(res.data.userTweets)))
+    }
+}
+
+export { signupUser, loginUser, logout, userDetails, getUnFollowedUsers, follow, followingProfiles, followersData, postTheTweet ,getAllTweets,getLoginUserTweets }

@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT, USER_PROFILE, UNFOLLOWERS, REQUESTSENT, FOLLOW ,FOLLOWING_USERS ,FOLLOWERS } from "./Actions_types"
+import { LOGIN, LOGOUT, USER_PROFILE, UNFOLLOWERS, REQUESTSENT, FOLLOW ,FOLLOWING_USERS ,FOLLOWERS ,TWEETS ,PROFILE_LINE_TWEETS } from "./Actions_types"
 import { Followers } from "../Components/Followers"
 
 const initialuUserState = {
@@ -14,6 +14,8 @@ const appDataState = {
     unfollowers: [],
     followingUsers:[],
     followers:[],
+    homeLineTweets:[],
+    profileLineTweets:[],
     profileEdit: false
 
 }
@@ -115,6 +117,19 @@ const dataReducers = (state = appDataState, action) => {
             return {
                 ...state,
                 followers:action.payload
+            }
+        }
+        case TWEETS:{
+            return {
+                ...state,
+                homeLineTweets:action.payload  
+            }
+        }
+        case PROFILE_LINE_TWEETS:{
+            return {
+                ...state,
+                profileLineTweets:state.homeLineTweets.filter((ele)=>ele.uniqueUserName === action.payload)
+
             }
         }
 

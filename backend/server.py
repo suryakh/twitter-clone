@@ -18,7 +18,9 @@ def myroute():
 
 from Blueprint_auth import auth
 from Blueprint_profileData import profileData
+from Blueprint_tweet import tweets
 
 
 app.register_blueprint(auth,url_prefix="/auth")
 app.register_blueprint(profileData,url_prefix="/profile")
+app.register_blueprint(tweets,url_prefix="/tweet")

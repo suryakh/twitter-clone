@@ -3,7 +3,9 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { userDetails } from '../Redux/Actions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { getLoginUserTweets } from '../Redux/Actions'
 import { faImage, faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
+import Tweet from '../Components/Tweet'
 
 export class Profile extends Component {
     constructor(props) {
@@ -16,6 +18,7 @@ export class Profile extends Component {
     }
     componentDidMount() {
         this.props.userDetails(this.props.match.params.id, this.props.userInfo.token)
+        this.props.getLoginUserTweets(this.props.match.params.id)
     }
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.match.params.id !== this.props.match.params.id) {
@@ -24,7 +27,7 @@ export class Profile extends Component {
         }
     }
     render() {
-
+        // console.log()
         return (
             <>
                 <div className="row border pt-3">
@@ -80,6 +83,7 @@ export class Profile extends Component {
                     </div>
                 </div>
                 <div className="row">
+                    {this.props.appdata.profileLineTweets.map((ele)=><div className="col-12"><Tweet data={ele}/></div>)}
                 </div>
             </>
         )
@@ -93,7 +97,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        userDetails: (id, token) => dispatch(userDetails(id, token))
+        userDetails: (id, token) => dispatch(userDetails(id, token)),
+        getLoginUserTweets:(id) => dispatch(getLoginUserTweets(id))
     }
 }
 
