@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import {retweet} from '../Redux/Actions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRetweet } from '@fortawesome/free-solid-svg-icons'
 import { faComment, faHeart } from '@fortawesome/free-regular-svg-icons'
@@ -29,10 +30,15 @@ export class tweet extends Component {
                             </div>
                         </div>}
                         <div className="row">
-                            <div className="col-4"><FontAwesomeIcon icon={faRetweet} /> 0 </div>
-                            <div className="col-4"><FontAwesomeIcon icon={faHeart} /> 0</div>
                             <div className="col-4"><FontAwesomeIcon icon={faComment} /> 0 </div>
+                            <div className="col-4" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><FontAwesomeIcon icon={faRetweet} /> 0 </div>
+                            <div className="col-4"><FontAwesomeIcon icon={faHeart} /> 0</div>
+                            <div class="dropdown-menu tweetDropDown" aria-labelledby="dropdownMenuLink">
+                                <div className="col-12 p-2" onClick={()=>this.props.retweet(this.props.data.id,this.props.userInfo.token)}>Retweet</div>
+                                <div className="col-12 p-2">Retweet with comment</div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -42,11 +48,13 @@ export class tweet extends Component {
 }
 
 const mapStateToProps = (state) => ({
-
+    userInfo: state.userReducer
 })
 
-const mapDispatchToProps = {
-
+const mapDispatchToProps = dispatch =>{
+return {
+    retweet:(id,token) => dispatch(retweet(id,token))
+}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(tweet)

@@ -97,6 +97,10 @@ input:focus + label{
   border-radius: 20px;
   padding: 30px;
 }
+
+.tweetDropDown {
+  cursor: pointer;
+}
 /* div {
   border: 1px solid black;
 } */

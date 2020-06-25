@@ -172,5 +172,17 @@ const getAllTweets = (token) =>{
         .then((res)=>dispatch(tweetsData(res.data.userTweets)))
     }
 }
+const retweet = (id,token)=>{
+    return dispatch=>{
+        axios({
+            method:"POST",
+            url:`http://localhost:5000/tweet/retweet/${id}`,
+            headers:{
+                'Authorization': token
+            }
+        })
+        .then ((res)=>console.log(res))
+    }
+}
 
-export { signupUser, loginUser, logout, userDetails, getUnFollowedUsers, follow, followingProfiles, followersData, postTheTweet ,getAllTweets,getLoginUserTweets }
+export { signupUser, loginUser, logout, userDetails, getUnFollowedUsers, follow, followingProfiles, followersData, postTheTweet ,getAllTweets,getLoginUserTweets,retweet }

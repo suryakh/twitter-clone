@@ -83,6 +83,11 @@ export class Profile extends Component {
                     </div>
                 </div>
                 <div className="row">
+                    <div className="col-12 float-left">
+                        <h3>tweets & retweets</h3>
+                    </div>
+                </div>
+                <div className="row">
                     {this.props.appdata.profileLineTweets.map((ele)=><div className="col-12"><Tweet data={ele}/></div>)}
                 </div>
             </>

@@ -1,5 +1,7 @@
 from flask import Blueprint
 from flask import request,jsonify
+from datetime import datetime
+from operator import attrgetter
 import os
 import json
 import base64
@@ -49,7 +51,36 @@ def sendAlltweets():
         cursor.execute(
             """select maintable.*,users.image,users.uniqueUserName,userName from (select * from tweets where userId in (select followersID from followers where userID = %s) or userId = %s) as maintable left join users on users.id = maintable.userId""",(userData["id"],userData["id"])
         )
-        result = cursor.fetchall()
-        return jsonify({"userTweets":result})
+        tweets = cursor.fetchall()
+        results = []
+        for r in tweets:
+            r["retweeted"] = False
+            results.append(r)
+        cursor.execute(
+            """select newtable.*,users.uniqueUserName as retweeteduser from (select retweet.id,retweet.reTweetUserId,retweet.retweetContent,retweet.reTweetTime as tweetedTime,tweets.content,tweets.postImage,tweets.userId,tweets.likes,tweets.replies,tweets.retweets,users.userName,users.uniqueUserName,users.image  from retweet left join tweets on retweet.tweetId = tweets.id left join users on tweets.userId = users.id where reTweetUserId = %s) as newtable left join users on users.id = newtable.reTweetUserId where reTweetUserId in (select followersID from followers where userID = %s) or reTweetUserId = %s """,(userData["id"],userData["id"],userData["id"])
+        )
+        retweets = cursor.fetchall()
+        for r in retweets:
+            r["retweeted"] = True
+            results.append(r)
+        results.sort(key=lambda r: r["tweetedTime"],reverse=True)
+        return jsonify({"userTweets":results})
+    except:
+        return json.dumps({"message": "some error occurs"}), 400
+    
+@tweets.route('/retweet/<id>',methods = ["POST"])
+def retweets(id):
+    token = request.headers.get('Authorization')
+    encoded_Data = token.split(" ")[0]
+    try:
+        userData = jwt.decode(encoded_Data,'users',algorithms=['HS256'])
+        cursor = mysql.connection.cursor()
+        cursor.execute(
+            """ insert into retweet (reTweetUserId,tweetId,reTweetTime) values(%s,%s,now())""",(userData["id"],id)
+        )
+        mysql.connection.commit()
+        print(id)
+        cursor.close()
+        return json.dumps({"message":"successfully retweeted"})
     except:
         return json.dumps({"message": "some error occurs"}), 400
