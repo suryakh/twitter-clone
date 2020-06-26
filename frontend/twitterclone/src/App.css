@@ -77,7 +77,7 @@ input:focus + label{
   position: absolute;
   padding: 10px;
   border-radius: 10px;
-  bottom: 80px;
+  bottom: 60px;
 }
 
 /* .dropdown-content a {
@@ -100,6 +100,16 @@ input:focus + label{
 
 .tweetDropDown {
   cursor: pointer;
+}
+.retweetDiv input {
+border: none;
+}
+h1, h2, h3, h4, h5, h6,p {
+  padding: 0px;
+  margin: 0px;
+}
+.retweetedTweet {
+  border-radius: 20px;
 }
 /* div {
   border: 1px solid black;

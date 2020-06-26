@@ -35,9 +35,16 @@ def postTweet():
         cursor.execute(
             """insert into tweets (content,postImage,userId,tweetedTime) values (%s,%s,%s,now())""",(tweetsContent,destination,userData["id"])
         )
+        latestId = mysql.connection.insert_id()
+        print(latestId)
         mysql.connection.commit()
+        cursor.execute(
+            """select tweets.*,users.uniqueUserName,users.image,users.userName from tweets  left join users on tweets.userId = users.id where tweets.id = %s""",(latestId,)
+        )
+        latestData = cursor.fetchone()
+        latestData["retweeted"] = False
         cursor.close()
-        return jsonify({"message":"tweet posted"})
+        return jsonify({"latestTweet":latestData})
     except:
         return json.dumps({"message": "some error occurs"}), 400
     
@@ -57,7 +64,7 @@ def sendAlltweets():
             r["retweeted"] = False
             results.append(r)
         cursor.execute(
-            """select newtable.*,users.uniqueUserName as retweeteduser from (select retweet.id,retweet.reTweetUserId,retweet.retweetContent,retweet.reTweetTime as tweetedTime,tweets.content,tweets.postImage,tweets.userId,tweets.likes,tweets.replies,tweets.retweets,users.userName,users.uniqueUserName,users.image  from retweet left join tweets on retweet.tweetId = tweets.id left join users on tweets.userId = users.id where reTweetUserId = %s) as newtable left join users on users.id = newtable.reTweetUserId where reTweetUserId in (select followersID from followers where userID = %s) or reTweetUserId = %s """,(userData["id"],userData["id"],userData["id"])
+            """select newtable.*,users.uniqueUserName as retweeteduser,users.image as retweetedUserImage,users.userName as retwetedUserName from (select retweet.id as retweetId,retweet.reTweetUserId,retweet.retweetContent,retweet.reTweetTime as tweetedTime,tweets.content,tweets.postImage,tweets.id,tweets.userId,tweets.likes,tweets.replies,tweets.retweets,users.userName,users.uniqueUserName,users.image  from retweet left join tweets on retweet.tweetId = tweets.id left join users on tweets.userId = users.id where reTweetUserId = %s) as newtable left join users on users.id = newtable.reTweetUserId where reTweetUserId in (select followersID from followers where userID = %s) or reTweetUserId = %s """,(userData["id"],userData["id"],userData["id"])
         )
         retweets = cursor.fetchall()
         for r in retweets:
@@ -70,17 +77,28 @@ def sendAlltweets():
     
 @tweets.route('/retweet/<id>',methods = ["POST"])
 def retweets(id):
+    comment = request.json["comment"]
+    if comment:
+        comment = comment
+    else:
+        comment = None
     token = request.headers.get('Authorization')
     encoded_Data = token.split(" ")[0]
     try:
         userData = jwt.decode(encoded_Data,'users',algorithms=['HS256'])
         cursor = mysql.connection.cursor()
         cursor.execute(
-            """ insert into retweet (reTweetUserId,tweetId,reTweetTime) values(%s,%s,now())""",(userData["id"],id)
+            """insert into retweet (tweetId,retweetContent,reTweetTime,reTweetUserId) values (%s,%s,now(),%s)""",(id,comment,userData['id'])
         )
+        latestId = mysql.connection.insert_id()
         mysql.connection.commit()
-        print(id)
+        cursor.execute(
+            """select newtable.*,users.uniqueUserName as retweeteduser,users.image as retweetedUserImage,users.userName as retwetedUserName from (select retweet.id as retweetId,retweet.reTweetUserId,retweet.retweetContent,retweet.reTweetTime as tweetedTime,tweets.content,tweets.postImage,tweets.id,tweets.userId,tweets.likes,tweets.replies,tweets.retweets,users.userName,users.uniqueUserName,users.image  from retweet left join tweets on retweet.tweetId = tweets.id left join users on tweets.userId = users.id) as newtable  left join users on newtable.reTweetUserId = users.id where retweetId = %s""",(latestId,)
+        )
+        latestRetweet = cursor.fetchone()
+        latestRetweet["retweeted"] = True
         cursor.close()
-        return json.dumps({"message":"successfully retweeted"})
+        return jsonify({"latestRetweet":latestRetweet})
     except:
         return json.dumps({"message": "some error occurs"}), 400
+    

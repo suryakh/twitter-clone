@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT, USER_PROFILE, UNFOLLOWERS, REQUESTSENT, FOLLOW ,FOLLOWING_USERS ,FOLLOWERS ,TWEETS ,PROFILE_LINE_TWEETS } from "./Actions_types"
+import { LOGIN, LOGOUT, USER_PROFILE, UNFOLLOWERS, REQUESTSENT, FOLLOW ,FOLLOWING_USERS ,FOLLOWERS ,TWEETS ,PROFILE_LINE_TWEETS,UPDATE_POST } from "./Actions_types"
 import { Followers } from "../Components/Followers"
 
 const initialuUserState = {
@@ -10,6 +10,7 @@ const initialuUserState = {
 }
 
 const appDataState = {
+    updateData:false,
     userProfile: {},
     unfollowers: [],
     followingUsers:[],
@@ -128,11 +129,18 @@ const dataReducers = (state = appDataState, action) => {
         case PROFILE_LINE_TWEETS:{
             return {
                 ...state,
-                profileLineTweets:state.homeLineTweets.filter((ele)=>ele.uniqueUserName === action.payload)
+                profileLineTweets:state.homeLineTweets.filter((ele)=>ele.uniqueUserName === action.payload || ele.retweeteduser === action.payload)
 
             }
         }
-
+        case UPDATE_POST:{
+            let temp = state.homeLineTweets
+            temp.unshift(action.payload)
+            return {
+                ...state,
+                homeLineTweets:temp
+            }
+        }
         default: {
             return state
         }

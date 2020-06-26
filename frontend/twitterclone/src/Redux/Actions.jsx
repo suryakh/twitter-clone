@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { LOGIN, LOGOUT, USER_PROFILE, UNFOLLOWERS, REQUESTSENT, FOLLOW, FOLLOWING_USERS, FOLLOWERS ,TWEETS ,PROFILE_LINE_TWEETS} from './Actions_types'
+import { LOGIN, LOGOUT, USER_PROFILE, UNFOLLOWERS, REQUESTSENT, FOLLOW, FOLLOWING_USERS, FOLLOWERS ,TWEETS ,PROFILE_LINE_TWEETS,UPDATE_POST} from './Actions_types'
 
 
 const login = (data) => {
@@ -58,6 +58,12 @@ const getLoginUserTweets = (id) =>{
     return {
         type:PROFILE_LINE_TWEETS,
         payload:id
+    }
+}
+const updatePost=(data)=>{
+    return {
+        type:UPDATE_POST,
+        payload:data
     }
 }
 const follow = (id, token) => {
@@ -156,11 +162,12 @@ const postTheTweet = (token, data) => {
             },
             data: data
         })
-            .then((res) => console.log(res))
+            .then((res) => dispatch(updatePost(res.data.latestTweet)))
     }
 }
 
 const getAllTweets = (token) =>{
+    console.log(token)
     return dispatch => {
         axios ({
             method:"GET",
@@ -172,13 +179,16 @@ const getAllTweets = (token) =>{
         .then((res)=>dispatch(tweetsData(res.data.userTweets)))
     }
 }
-const retweet = (id,token)=>{
+const retweet = (id,comment,token)=>{
     return dispatch=>{
         axios({
             method:"POST",
             url:`http://localhost:5000/tweet/retweet/${id}`,
             headers:{
                 'Authorization': token
+            },
+            data:{
+                "comment":comment
             }
         })
         .then ((res)=>console.log(res))

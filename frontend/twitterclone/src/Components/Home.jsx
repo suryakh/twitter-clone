@@ -43,6 +43,7 @@ export class Home extends Component {
         formdata.append("tweetContent", this.state.tweet)
         formdata.append("post", this.state.postImage)
         this.props.postTheTweet(this.props.userInfo.token, formdata)
+        // this.props.getAllTweets(this.props.userInfo.token)
         this.setState({
             tweet: "",
             image: "",
@@ -63,7 +64,6 @@ export class Home extends Component {
                     </div>
                     <div className="col-11">
                         <input type="text" placeholder="What's happening?" value={this.state.tweet} onChange={(e) => this.handleChange(e)} />
-                    </div>
                     <div className="col-12">
                         {this.state.imageStatus && <div className="row m-1"><div className="col-2">
                             <img style={{ height: "80px" }} src={this.state.image} />
@@ -76,7 +76,9 @@ export class Home extends Component {
                             <div className="mt-4 col-2"> <button className="btn btn-primary rounded-pill" onClick={() => this.handleClick()}>Tweet</button></div>
                         </div>
                     </div>
+                    </div>
                 </div>
+
                 <div className="row">
                     {this.props.appdata.homeLineTweets.map((ele) => <div className="col-12"><Tweet data={ele}/></div>)}
                 </div>
