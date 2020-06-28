@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT, USER_PROFILE, UNFOLLOWERS, REQUESTSENT, FOLLOW ,FOLLOWING_USERS ,FOLLOWERS ,TWEETS ,PROFILE_LINE_TWEETS,UPDATE_POST } from "./Actions_types"
+import { LOGIN, LOGOUT, USER_PROFILE, UNFOLLOWERS, REQUESTSENT, FOLLOW ,FOLLOWING_USERS ,FOLLOWERS ,TWEETS ,PROFILE_LINE_TWEETS,UPDATE_POST,POST_RETWEET,LIKES } from "./Actions_types"
 import { Followers } from "../Components/Followers"
 
 const initialuUserState = {
@@ -137,6 +137,41 @@ const dataReducers = (state = appDataState, action) => {
             let temp = state.homeLineTweets
             temp.unshift(action.payload)
             return {
+                ...state,
+                homeLineTweets:temp
+            }
+        }
+        case POST_RETWEET:{
+            let temp = state.homeLineTweets.map((ele)=>{
+                if(ele.id === action.payload.id){
+                    ele.reTweets = ele.reTweets+1
+                    return ele
+                }
+                else {
+                    return ele
+                }
+            })
+            console.log(temp)
+            temp.unshift(action.payload.data)
+            return {
+                ...state,
+                homeLineTweets:temp
+            }
+        }
+        case LIKES:{
+            console.log("jkasdnfja")
+            let temp = state.homeLineTweets.map((ele)=>{
+                if(ele.id === action.payload){
+                    ele.likes = ele.likes+1
+                    ele.liked = true
+                    return ele
+                }
+                else {
+                    return ele
+                }
+            })
+            console.log(temp)
+            return{
                 ...state,
                 homeLineTweets:temp
             }

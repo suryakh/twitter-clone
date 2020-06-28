@@ -60,15 +60,30 @@ def sendAlltweets():
         )
         tweets = cursor.fetchall()
         results = []
+        cursor.execute(
+            """select likedTweetId from likes where userId = %s""",(userData["id"],)
+        )
+        likedResults = cursor.fetchall()
+        likedTweets = []
+        for i in likedResults:
+            likedTweets.append(i["likedTweetId"])
         for r in tweets:
             r["retweeted"] = False
+            if r['id'] in likedTweets:
+                r["liked"] = True
+            else:
+                r["liked"] = False
             results.append(r)
         cursor.execute(
-            """select newtable.*,users.uniqueUserName as retweeteduser,users.image as retweetedUserImage,users.userName as retwetedUserName from (select retweet.id as retweetId,retweet.reTweetUserId,retweet.retweetContent,retweet.reTweetTime as tweetedTime,tweets.content,tweets.postImage,tweets.id,tweets.userId,tweets.likes,tweets.replies,tweets.retweets,users.userName,users.uniqueUserName,users.image  from retweet left join tweets on retweet.tweetId = tweets.id left join users on tweets.userId = users.id where reTweetUserId = %s) as newtable left join users on users.id = newtable.reTweetUserId where reTweetUserId in (select followersID from followers where userID = %s) or reTweetUserId = %s """,(userData["id"],userData["id"],userData["id"])
+            """select newtable.*,users.uniqueUserName as retweeteduser,users.image as retweetedUserImage,users.userName as retwetedUserName from (select retweet.id as retweetId,retweet.reTweetUserId,retweet.retweetContent,retweet.reTweetTime as tweetedTime,tweets.content,tweets.postImage,tweets.id,tweets.userId,tweets.likes,tweets.replies,tweets.reTweets,users.userName,users.uniqueUserName,users.image  from retweet left join tweets on retweet.tweetId = tweets.id left join users on tweets.userId = users.id where reTweetUserId = %s) as newtable left join users on users.id = newtable.reTweetUserId where reTweetUserId in (select followersID from followers where userID = %s) or reTweetUserId = %s """,(userData["id"],userData["id"],userData["id"])
         )
         retweets = cursor.fetchall()
         for r in retweets:
             r["retweeted"] = True
+            if r['id'] in likedTweets:
+                r["liked"] = True
+            else:
+                r["liked"] = False
             results.append(r)
         results.sort(key=lambda r: r["tweetedTime"],reverse=True)
         return jsonify({"userTweets":results})
@@ -91,14 +106,41 @@ def retweets(id):
             """insert into retweet (tweetId,retweetContent,reTweetTime,reTweetUserId) values (%s,%s,now(),%s)""",(id,comment,userData['id'])
         )
         latestId = mysql.connection.insert_id()
+        cursor.execute(
+            """update tweets set retweets = retweets+1 where id = %s""",(id,)
+        )
         mysql.connection.commit()
         cursor.execute(
-            """select newtable.*,users.uniqueUserName as retweeteduser,users.image as retweetedUserImage,users.userName as retwetedUserName from (select retweet.id as retweetId,retweet.reTweetUserId,retweet.retweetContent,retweet.reTweetTime as tweetedTime,tweets.content,tweets.postImage,tweets.id,tweets.userId,tweets.likes,tweets.replies,tweets.retweets,users.userName,users.uniqueUserName,users.image  from retweet left join tweets on retweet.tweetId = tweets.id left join users on tweets.userId = users.id) as newtable  left join users on newtable.reTweetUserId = users.id where retweetId = %s""",(latestId,)
+            """select newtable.*,users.uniqueUserName as retweeteduser,users.image as retweetedUserImage,users.userName as retwetedUserName from (select retweet.id as retweetId,retweet.reTweetUserId,retweet.retweetContent,retweet.reTweetTime as tweetedTime,tweets.content,tweets.postImage,tweets.id,tweets.userId,tweets.likes,tweets.replies,tweets.reTweets,users.userName,users.uniqueUserName,users.image  from retweet left join tweets on retweet.tweetId = tweets.id left join users on tweets.userId = users.id) as newtable  left join users on newtable.reTweetUserId = users.id where retweetId = %s""",(latestId,)
         )
         latestRetweet = cursor.fetchone()
         latestRetweet["retweeted"] = True
+        print(latestRetweet)
         cursor.close()
         return jsonify({"latestRetweet":latestRetweet})
     except:
         return json.dumps({"message": "some error occurs"}), 400
     
+
+@tweets.route("/likes/<id>",methods=["POST"])
+def likes(id):
+    token = request.headers.get("Authorization")
+    encoded_Data = token.split(" ")[0]
+    try:
+        userData = jwt.decode(encoded_Data,"users",algorithms=["HS256"])
+        cursor = mysql.connection.cursor()
+        cursor.execute(
+            """insert into likes (userId,likedTweetId) values(%s,%s)""",(userData["id"],id)
+        )
+        latestId = mysql.connection.insert_id()
+        cursor.connection.commit()
+        cursor.execute(
+            """update tweets set likes = likes+1 where id = %s""",(id,)
+        )
+        cursor.connection.commit()
+        cursor.close()        
+        return jsonify({"message":"posted"})
+    except:
+        return json.dumps({"message": "some error occurs"}), 400
+        
+        

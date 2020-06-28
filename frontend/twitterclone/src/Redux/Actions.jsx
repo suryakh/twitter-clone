@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { LOGIN, LOGOUT, USER_PROFILE, UNFOLLOWERS, REQUESTSENT, FOLLOW, FOLLOWING_USERS, FOLLOWERS ,TWEETS ,PROFILE_LINE_TWEETS,UPDATE_POST} from './Actions_types'
+import { LOGIN, LOGOUT, USER_PROFILE, UNFOLLOWERS, REQUESTSENT, FOLLOW, FOLLOWING_USERS, FOLLOWERS ,TWEETS ,PROFILE_LINE_TWEETS,UPDATE_POST ,POST_RETWEET,LIKES} from './Actions_types'
 
 
 const login = (data) => {
@@ -64,6 +64,21 @@ const updatePost=(data)=>{
     return {
         type:UPDATE_POST,
         payload:data
+    }
+}
+const postRetweet = (data,id)=>{
+    return {
+        type:POST_RETWEET,
+        payload:{
+            data:data,
+            id:id
+        }
+    }
+}
+const likes = (id) =>{
+    return {
+        type:LIKES,
+        payload:id
     }
 }
 const follow = (id, token) => {
@@ -191,8 +206,20 @@ const retweet = (id,comment,token)=>{
                 "comment":comment
             }
         })
-        .then ((res)=>console.log(res))
+        .then ((res)=>dispatch(postRetweet(res.data.latestRetweet,id)))
+    }
+}
+const likeTweet = (id,token) =>{
+    return dispatch =>{
+        axios({
+            method:"POST",
+            url:`http://localhost:5000/tweet/likes/${id}`,
+            headers:{
+                'Authorization': token
+            }
+        })
+        .then((res)=>dispatch(likes(id)))
     }
 }
 
-export { signupUser, loginUser, logout, userDetails, getUnFollowedUsers, follow, followingProfiles, followersData, postTheTweet ,getAllTweets,getLoginUserTweets,retweet }
+export { signupUser, loginUser, logout, userDetails, getUnFollowedUsers, follow, followingProfiles, followersData, postTheTweet ,getAllTweets,getLoginUserTweets,retweet,likeTweet }
