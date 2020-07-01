@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT, USER_PROFILE, UNFOLLOWERS, REQUESTSENT, FOLLOW ,FOLLOWING_USERS ,FOLLOWERS ,TWEETS ,PROFILE_LINE_TWEETS,UPDATE_POST,POST_RETWEET,LIKES } from "./Actions_types"
+import { LOGIN, LOGOUT, USER_PROFILE, UNFOLLOWERS, REQUESTSENT, FOLLOW, FOLLOWING_USERS, FOLLOWERS, TWEETS, PROFILE_LINE_TWEETS, UPDATE_POST, POST_RETWEET, LIKES } from "./Actions_types"
 import { Followers } from "../Components/Followers"
 
 const initialuUserState = {
@@ -10,13 +10,13 @@ const initialuUserState = {
 }
 
 const appDataState = {
-    updateData:false,
+    updateData: false,
     userProfile: {},
     unfollowers: [],
-    followingUsers:[],
-    followers:[],
-    homeLineTweets:[],
-    profileLineTweets:[],
+    followingUsers: [],
+    followers: [],
+    homeLineTweets: [],
+    profileLineTweets: [],
     profileEdit: false
 
 }
@@ -73,21 +73,11 @@ const dataReducers = (state = appDataState, action) => {
             let year = new Date(action.payload["joinTime"]).getFullYear()
             let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
             action.payload["joinTime"] = months[month] + "," + year
-            if (uniqueName === action.payload["uniqueUserName"]) {
-                console.log("hllo")
                 return {
 
                     ...state,
                     userProfile: action.payload,
-                    profileEdit: true
                 }
-            }
-            else {
-                return {
-                    ...state,
-                    userProfile: action.payload
-                }
-            }
         }
         case UNFOLLOWERS: {
             return {
@@ -108,43 +98,43 @@ const dataReducers = (state = appDataState, action) => {
                 unfollowers: temp
             }
         }
-        case FOLLOWING_USERS:{
+        case FOLLOWING_USERS: {
             return {
                 ...state,
-                followingUsers:action.payload
+                followingUsers: action.payload
             }
         }
-        case FOLLOWERS:{
+        case FOLLOWERS: {
             return {
                 ...state,
-                followers:action.payload
+                followers: action.payload
             }
         }
-        case TWEETS:{
+        case TWEETS: {
             return {
                 ...state,
-                homeLineTweets:action.payload  
+                homeLineTweets: action.payload
             }
         }
-        case PROFILE_LINE_TWEETS:{
+        case PROFILE_LINE_TWEETS: {
             return {
                 ...state,
-                profileLineTweets:state.homeLineTweets.filter((ele)=>ele.uniqueUserName === action.payload || ele.retweeteduser === action.payload)
+                profileLineTweets: state.homeLineTweets.filter((ele) => ele.uniqueUserName === action.payload || ele.retweeteduser === action.payload)
 
             }
         }
-        case UPDATE_POST:{
+        case UPDATE_POST: {
             let temp = state.homeLineTweets
             temp.unshift(action.payload)
             return {
                 ...state,
-                homeLineTweets:temp
+                homeLineTweets: temp
             }
         }
-        case POST_RETWEET:{
-            let temp = state.homeLineTweets.map((ele)=>{
-                if(ele.id === action.payload.id){
-                    ele.reTweets = ele.reTweets+1
+        case POST_RETWEET: {
+            let temp = state.homeLineTweets.map((ele) => {
+                if (ele.id === action.payload.id) {
+                    ele.reTweets = ele.reTweets + 1
                     return ele
                 }
                 else {
@@ -155,14 +145,13 @@ const dataReducers = (state = appDataState, action) => {
             temp.unshift(action.payload.data)
             return {
                 ...state,
-                homeLineTweets:temp
+                homeLineTweets: temp
             }
         }
-        case LIKES:{
-            console.log("jkasdnfja")
-            let temp = state.homeLineTweets.map((ele)=>{
-                if(ele.id === action.payload){
-                    ele.likes = ele.likes+1
+        case LIKES: {
+            let temp = state.homeLineTweets.map((ele) => {
+                if (ele.id === action.payload.id) {
+                    ele.likes = ele.likes + 1
                     ele.liked = true
                     return ele
                 }
@@ -170,10 +159,9 @@ const dataReducers = (state = appDataState, action) => {
                     return ele
                 }
             })
-            console.log(temp)
-            return{
+            return {
                 ...state,
-                homeLineTweets:temp
+                homeLineTweets: temp
             }
         }
         default: {

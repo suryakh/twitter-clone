@@ -70,7 +70,7 @@ export class Router extends Component {
                         </div>
 
                     </div>
-                    <div className="col-4 border">
+                    <div className="col-5 border">
                         <>
                             <Switch>
                                 <Route path='/' exact render={(props) => <Home {...props} />} />
@@ -85,7 +85,7 @@ export class Router extends Component {
 
                         </>
                     </div>
-                    <div className="col-4">
+                    <div className="col-3">
                         <div className="row">
                             <div className="col-6 p-4 m-4">
                                 <h4>who to follow</h4>

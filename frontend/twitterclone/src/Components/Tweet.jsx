@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { retweet,likeTweet } from '../Redux/Actions'
+import { retweet, likeTweet,deleteTweet } from '../Redux/Actions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRetweet } from '@fortawesome/free-solid-svg-icons'
+import { faRetweet, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { faComment } from '@fortawesome/free-regular-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
@@ -19,6 +19,9 @@ export class tweet extends Component {
             comment: "",
         }
     }
+    componentDidMount() {
+        let temp = this.props.appdata.homeLineTweets.find((ele) => ele.id === this.props.data.id)
+    }
     retweetWithcomment = (data) => {
         this.setState({
             retweetContentStatus: true
@@ -30,6 +33,7 @@ export class tweet extends Component {
         })
     }
     render() {
+        console.log(this.props)
         if (!this.props.data.retweeted) {
             return (
                 <>
@@ -55,12 +59,15 @@ export class tweet extends Component {
                                 </div>
                             </div>}
                             <div className="row">
-                                <div className="col-4"><FontAwesomeIcon icon={faComment} /> 0 </div>
-                                <div className="col-4" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><FontAwesomeIcon icon={faRetweet} /> {this.props.data.reTweets} </div>
-            <div className="col-4">{this.props.data.liked ? <FontAwesomeIcon  style={{color:"red"}} icon={faHeart} onClick={()=>this.props.likeTweet(this.props.data.id,this.props.userInfo.token)} /> : <FontAwesomeIcon  icon={faHeartRegular} onClick={()=>this.props.likeTweet(this.props.data.id,this.props.userInfo.token)}/> } {this.props.data.likes}</div>
+                                <div className="col-3"><FontAwesomeIcon icon={faComment} /> 0 </div>
+                                <div className="col-3" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><FontAwesomeIcon icon={faRetweet} /> {this.props.data.reTweets} </div>
+                                <div className="col-3 likeButton">{this.props.data.liked ? <FontAwesomeIcon style={{ color: "red" }} icon={faHeart} onClick={() => this.props.likeTweet(this.props.data.id, this.props.userInfo.token)} /> : <FontAwesomeIcon icon={faHeartRegular} onClick={() => this.props.likeTweet(this.props.data.id, this.props.userInfo.token)} />} {this.props.data.likes}</div>
                                 <div class="dropdown-menu tweetDropDown" aria-labelledby="dropdownMenuLink">
                                     <div className="col-12 p-2" onClick={() => this.props.retweet(this.props.data.id, this.state.comment, this.props.userInfo.token)}>Retweet</div>
                                     <div className="col-12 p-2" data-toggle="modal" data-target={`#exampleModal${this.props.data.id}`} onClick={() => this.retweetWithcomment(this.props.data)}>Retweet with comment</div>
+                                </div>
+                                <div className="col-3">
+                                    {this.props.userInfo.uniqueName === this.props.data.uniqueUserName && <FontAwesomeIcon onClick={this.props.deleteTweet(this.props.data.id,this.props.userInfo.token)} icon={faTrash}/>}
                                 </div>
                             </div>
                         </div>
@@ -95,7 +102,7 @@ export class tweet extends Component {
                                 </div>
                                 <div className="modal-footer">
                                     <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" className="btn btn-primary" onClick={() => this.props.retweet(this.props.data.id, this.state.comment, this.props.userInfo.token)}>retweet</button>
+                                    <button type="button" data-dismiss="modal" className="btn btn-primary" onClick={() => this.props.retweet(this.props.data.id, this.state.comment, this.props.userInfo.token)}>retweet</button>
                                 </div>
                             </div>
                         </div>
@@ -149,12 +156,15 @@ export class tweet extends Component {
                                                 </div>
                                             </div>}
                                             <div className="row">
-                                                <div className="col-4"><FontAwesomeIcon icon={faComment} /> 0 </div>
-                                                <div className="col-4" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><FontAwesomeIcon icon={faRetweet} /> {this.props.data.reTweets} </div>
-                                                <div className="col-4">{this.props.data.liked ? <FontAwesomeIcon  style={{color:"red"}} icon={faHeart} onClick={()=>this.props.likeTweet(this.props.data.id,this.props.userInfo.token)} /> : <FontAwesomeIcon  icon={faHeartRegular} onClick={()=>this.props.likeTweet(this.props.data.id,this.props.userInfo.token)}/> } {this.props.data.likes}</div>
+                                                <div className="col-3"><FontAwesomeIcon icon={faComment} /> 0 </div>
+                                                <div className="col-3" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><FontAwesomeIcon icon={faRetweet} /> {this.props.data.reTweets} </div>
+                                                <div className="col-3 likeButton">{this.props.data.liked ? <FontAwesomeIcon style={{ color: "red" }} icon={faHeart} onClick={() => this.props.likeTweet(this.props.data.id, this.props.userInfo.token)} /> : <FontAwesomeIcon icon={faHeartRegular} onClick={() => this.props.likeTweet(this.props.data.id, this.props.userInfo.token)} />} {this.props.data.likes}</div>
                                                 <div class="dropdown-menu tweetDropDown" aria-labelledby="dropdownMenuLink">
                                                     <div className="col-12 p-2" onClick={() => this.props.retweet(this.props.data.id, this.state.comment, this.props.userInfo.token)}>Retweet</div>
                                                     <div className="col-12 p-2" data-toggle="modal" data-target={`#exampleModal${this.props.data.id}`} onClick={() => this.retweetWithcomment(this.props.data)}>Retweet with comment</div>
+                                                </div>
+                                                <div className="col-3">
+                                                    {this.props.userInfo.uniqueName === this.props.data.retweeteduser && <FontAwesomeIcon icon={faTrash}/>}
                                                 </div>
                                             </div>
                                         </div>
@@ -191,13 +201,16 @@ export class tweet extends Component {
                                     </div>
                                 </div>}
                                 <div className="row">
-                                    <div className="col-4"><FontAwesomeIcon icon={faComment} /> 0 </div>
-                                    <div className="col-4" role="button" id="dropdownMenuLink" data-toggle="dropdown" style={this.props.data.retweeteduser === this.props.userInfo.uniqueName ? {color:"blue"} :{ color:"black"}} aria-haspopup="true" aria-expanded="false"><FontAwesomeIcon icon={faRetweet} /> {this.props.data.reTweets} </div>
-                                    <div className="col-4">
-                                    {this.props.data.liked ? <FontAwesomeIcon  style={{color:"red"}} icon={faHeart} onClick={()=>this.props.likeTweet(this.props.data.id,this.props.userInfo.token)} /> : <FontAwesomeIcon  icon={faHeartRegular} onClick={()=>this.props.likeTweet(this.props.data.id,this.props.userInfo.token)}/> }  {this.props.data.likes}</div>
+                                    <div className="col-3"><FontAwesomeIcon icon={faComment} /> 0 </div>
+                                    <div className="col-3" role="button" id="dropdownMenuLink" data-toggle="dropdown" style={this.props.data.retweeteduser === this.props.userInfo.uniqueName ? { color: "blue" } : { color: "black" }} aria-haspopup="true" aria-expanded="false"><FontAwesomeIcon icon={faRetweet} /> {this.props.data.reTweets} </div>
+                                    <div className="col-3 likeButton">
+                                        {this.props.data.liked ? <FontAwesomeIcon style={{ color: "red" }} icon={faHeart} onClick={() => this.props.likeTweet(this.props.data.id, this.props.userInfo.token)} /> : <FontAwesomeIcon icon={faHeartRegular} onClick={() => this.props.likeTweet(this.props.data.id, this.props.userInfo.token)} />}  {this.props.data.likes}</div>
                                     <div class="dropdown-menu tweetDropDown" aria-labelledby="dropdownMenuLink">
                                         <div className="col-12 p-2" onClick={() => this.props.retweet(this.props.data.id, this.state.comment, this.props.userInfo.token)}>Retweet</div>
                                         <div className="col-12 p-2" data-toggle="modal" data-target={`#exampleModal${this.props.data.id}`} onClick={() => this.retweetWithcomment(this.props.data)}>Retweet with comment</div>
+                                    </div>
+                                    <div className="col-3">
+                                        {this.props.userInfo.uniqueName === this.props.data.retweeteduser && <FontAwesomeIcon icon={faTrash}/>}
                                     </div>
                                 </div>
                             </div>
@@ -233,7 +246,7 @@ export class tweet extends Component {
                                 </div>
                                 <div className="modal-footer">
                                     <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" className="btn btn-primary" onClick={() => this.props.retweet(this.props.data.id, this.state.comment, this.props.userInfo.token)}>retweet</button>
+                                    <button type="button" data-dismiss="modal" className="btn btn-primary" onClick={() => this.props.retweet(this.props.data.id, this.state.comment, this.props.userInfo.token)}>retweet</button>
                                 </div>
                             </div>
                         </div>
@@ -245,13 +258,15 @@ export class tweet extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    userInfo: state.userReducer
+    userInfo: state.userReducer,
+    appdata: state.dataReducers
 })
 
 const mapDispatchToProps = dispatch => {
     return {
         retweet: (id, comment, token) => dispatch(retweet(id, comment, token)),
-        likeTweet:(id,token) =>dispatch(likeTweet(id,token))
+        likeTweet: (id, token) => dispatch(likeTweet(id, token)),
+        deleteTweet:(id,token) =>deleteTweet(id,token)
     }
 }
 

@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getLoginUserTweets } from '../Redux/Actions'
 import { faImage, faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
 import Tweet from '../Components/Tweet'
+import Editprofile  from './Editprofile'
 
 export class Profile extends Component {
     constructor(props) {
@@ -27,7 +28,7 @@ export class Profile extends Component {
         }
     }
     render() {
-        // console.log()
+        console.log(this.props.appdata.uniqueUserName)
         return (
             <>
                 <div className="row border pt-3">
@@ -46,26 +47,26 @@ export class Profile extends Component {
                         </div>
                         <div>
                             <h3>{this.props.appdata.userProfile.userName}</h3>
-                            <h5>@{this.props.appdata.userProfile.uniqueUserName}</h5>
+                            <p className="m-1">@{this.props.appdata.userProfile.uniqueUserName}</p>
                         </div>
                         <div>
 
                         </div>
                     </div>
                     <div className="col-7 ">
-                        {this.props.appdata.profileEdit ? <button className="float-right btn btn-outline-primary rounded-pill mt-4">Edit Profile</button> : <button className="float-right btn btn-outline-primary rounded-pill mt-4">follow</button>}
+                        {this.props.userInfo.uniqueName === this.props.appdata.userProfile.uniqueUserName ? <button className="float-right btn btn-outline-primary rounded-pill mt-4" data-toggle="modal" data-target="#exampleModal" >Edit Profile</button> : <button className="float-right btn btn-outline-primary rounded-pill mt-4">follow</button>}
                     </div>
                 </div>
-                <div className="row border">
+                <div className="row m-2">
                     <div className="col-8">
                         <div className="row">
                             <div className="col-5">
                                 <div className="row">
-                                    <img style={{ height: "30px" }} src={'/birthday.png'} />Born on  {this.props.appdata.userProfile.dateOfBirth ? <h6>dateof birth</h6> : <h6>--:--:----</h6>}
+        <img style={{ height: "30px" }} src={'/birthday.png'} />Born on  {this.props.appdata.userProfile.dateOfBirth ? <p>{this.props.appdata.userProfile.dateOfBirth}</p> : <p>--:--:----</p>}
 
                                 </div>
                             </div>
-                            <div className="col-6 border">
+                            <div className="col-6">
                                 <div className="row">
                                     <div className="col-3" style={{ fontSize: "25px" }}><FontAwesomeIcon icon={faCalendarAlt} /></div> <div><p> joined {this.props.appdata.userProfile.joinTime}</p></div>
                                 </div>
@@ -82,13 +83,32 @@ export class Profile extends Component {
 
                     </div>
                 </div>
-                <div className="row">
+                <div className="row m-5">
                     <div className="col-12 float-left">
-                        <h3>tweets & retweets</h3>
+                        <p> Tweets & Retweets</p>
                     </div>
                 </div>
                 <div className="row">
-                    {this.props.appdata.profileLineTweets.map((ele)=><div className="col-12"><Tweet data={ele}/></div>)}
+                    {this.props.appdata.profileLineTweets.map((ele) => <div className="col-12"><Tweet data={ele} /></div>)}
+                </div>
+                <div className="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <Editprofile />
+                            </div>
+                            {/* <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" className="btn btn-primary">Save changes</button>
+                            </div> */}
+                        </div>
+                    </div>
                 </div>
             </>
         )
@@ -103,7 +123,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => {
     return {
         userDetails: (id, token) => dispatch(userDetails(id, token)),
-        getLoginUserTweets:(id) => dispatch(getLoginUserTweets(id))
+        getLoginUserTweets: (id) => dispatch(getLoginUserTweets(id))
     }
 }
 

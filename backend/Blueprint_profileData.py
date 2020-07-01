@@ -8,6 +8,7 @@ import jwt
 import random
 import string
 from server import mysql
+from Blueprint_auth import randomString
 
 profileData = Blueprint('profileData',__name__,static_url_path='/static')
 
@@ -111,3 +112,40 @@ def followers(id):
         return jsonify({"usersData":result})
     except:
         return json.dumps({"message": "some error occurs"}), 400
+    
+@profileData.route("/updateProfile",methods=['POST'])
+def updateProfile():
+    userName = request.form["userName"]
+    email= request.form["email"]
+    userBio = request.form["userBio"]
+    image = request.files
+    dateOfBirth = request.form["dateOfBirth"]
+    token = request.headers.get('Authorization')
+    encoded_Data = token.split(' ')[0]
+    try:
+        userData = jwt.decode(encoded_Data,'users',algorithms=['HS256'])
+        if image:
+            print(image)
+            imagename = request.files['image']
+            randomname = randomString()
+            destination = "_".join ([randomname,imagename.filename])
+            location = "static/profiles/"+destination
+            imagename.save(location)
+            num = random.randint(0,99999)
+            uniqueUserName = userName+str(num)
+            cursor = mysql.connection.cursor()
+            cursor.execute(
+                """UPDATE users SET username = %s, email = %s,userBio = %s,image = %s ,dateOfBirth = %s where id = %s""",(userName,email,userBio,destination,dateOfBirth,userData['id'])
+            )
+            mysql.connection.commit()
+        else:
+            cursor.execute(
+                """UPDATE users SET username = %s, email = %s,userBio = %s,dateOfBirth = %s where id = %s""",(userName,email,userBio,dateOfBirth,userData['id'])
+            )
+            mysql.connection.commit()
+        print("hello")
+        cursor.close()
+        return json.dumps({"message":"updated"})
+    except:
+        return json.dumps({"message": "some error occurs"}), 400
+        

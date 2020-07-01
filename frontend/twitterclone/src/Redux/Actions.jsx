@@ -78,7 +78,9 @@ const postRetweet = (data,id)=>{
 const likes = (id) =>{
     return {
         type:LIKES,
-        payload:id
+        payload:{
+            id:id
+        }
     }
 }
 const follow = (id, token) => {
@@ -222,4 +224,31 @@ const likeTweet = (id,token) =>{
     }
 }
 
-export { signupUser, loginUser, logout, userDetails, getUnFollowedUsers, follow, followingProfiles, followersData, postTheTweet ,getAllTweets,getLoginUserTweets,retweet,likeTweet }
+const updateProfile = (data,token) =>{
+    return dispatch =>{
+        axios({
+            method:"POST",
+            url:`http://localhost:5000/profile/updateProfile`,
+            headers:{
+                'Authorization': token
+            },
+            data:data
+        })
+        .then((res)=>console.log(res))
+    }
+}
+
+const deleteTweet =(id,token) =>{
+    return dispatch =>{
+        axios({
+            method:"DELETE",
+            url:"",
+            headers:{
+                'Authorization': token
+            }
+        })
+        .then((res)=>console.log(res))
+    }
+}
+
+export { signupUser, loginUser, logout, userDetails, getUnFollowedUsers, follow, followingProfiles, followersData, postTheTweet ,getAllTweets,getLoginUserTweets,retweet,likeTweet ,updateProfile,deleteTweet}

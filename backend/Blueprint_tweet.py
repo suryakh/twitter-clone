@@ -142,5 +142,16 @@ def likes(id):
         return jsonify({"message":"posted"})
     except:
         return json.dumps({"message": "some error occurs"}), 400
-        
+    
+
+# @tweers.route("/deleteTweet/<id>",methods=["DELETE"])
+# def deleteTweet(id):
+#     token = request.headers.get("Authorization")
+#     encoded_Data = token.split(" ")[0]
+#     try:
+#         userData = jwt.decode(encoded_Data,"users",algorithms=["HS256"])
+#         cursor = mysql.connection.cursor()
+#         cursor.execute(
+            
+#         )
         
