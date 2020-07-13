@@ -39,7 +39,7 @@ export class tweet extends Component {
                 <>
                     <div className="row border tweetBox pt-2 pb-2">
                         <div className="col-2">
-                            <img style={{ height: "50px", borderRadius: "50%" }} src={`http://localhost:5000/static/profiles/${this.props.data.image}`} />
+                            <img style={{ height: "50px", borderRadius: "50%" }} src={`https://twittercloneflask.herokuapp.com/static/profiles/${this.props.data.image}`} />
                         </div>
                         <div className="col-10">
                             <div className="row">
@@ -55,7 +55,7 @@ export class tweet extends Component {
                             </div>
                             {this.props.data.postImage && <div className="row mt-3 mr-2 mb-3 border postImage">
                                 <div className="col-12">
-                                    <img className="image-fluid" style={{ width: "80%" }} src={`http://localhost:5000/static/posts/${this.props.data.postImage}`} />
+                                    <img className="image-fluid" style={{ width: "80%" }} src={`https://twittercloneflask.herokuapp.com/static/posts/${this.props.data.postImage}`} />
                                 </div>
                             </div>}
                             <div className="row">
@@ -83,7 +83,7 @@ export class tweet extends Component {
                                 <div className="modal-body">
                                     <div className="row border">
                                         <div className="col-1 p-1">
-                                            <img style={{ height: "50px", borderRadius: "50%" }} src={`http://localhost:5000/static/profiles/${this.props.userInfo.profile}`} />
+                                            <img style={{ height: "50px", borderRadius: "50%" }} src={`https://twittercloneflask.herokuapp.com/static/profiles/${this.props.userInfo.profile}`} />
                                         </div>
                                         <div className="retweetDiv col-11">
                                             <input placeholder="comments" onChange={(e) => this.handleChange(e)} />
@@ -93,7 +93,7 @@ export class tweet extends Component {
                                                 </div>
                                                 {this.props.data.postImage && <div className="row mt-3 mr-2 mb-3 border postImage">
                                                     <div className="col-12">
-                                                        <img className="img-fluid" src={`http://localhost:5000/static/posts/${this.props.data.postImage}`} />
+                                                        <img className="img-fluid" src={`https://twittercloneflask.herokuapp.com/static/posts/${this.props.data.postImage}`} />
                                                     </div>
                                                 </div>}
                                             </div>
@@ -117,7 +117,7 @@ export class tweet extends Component {
                         <div className="col-12">
                             <div className="row">
                                 <div className="col-2">
-                                    <img style={{ height: "50px", borderRadius: "50%" }} src={`http://localhost:5000/static/profiles/${this.props.data.retweetedUserImage}`} />
+                                    <img style={{ height: "50px", borderRadius: "50%" }} src={`https://twittercloneflask.herokuapp.com/static/profiles/${this.props.data.retweetedUserImage}`} />
                                 </div>
                                 <div className="col-10">
                                     <div className="row">
@@ -136,7 +136,7 @@ export class tweet extends Component {
                                 <div className="col-8">
                                     <div className="row border retweetedTweet pt-4 mb-4" >
                                         <div className="col-2">
-                                            <img style={{ height: "30px", borderRadius: "50%" }} src={`http://localhost:5000/static/profiles/${this.props.data.image}`} />
+                                            <img style={{ height: "30px", borderRadius: "50%" }} src={`https://twittercloneflask.herokuapp.com/static/profiles/${this.props.data.image}`} />
                                         </div>
                                         <div className="col-10">
                                             <div className="row">
@@ -152,7 +152,7 @@ export class tweet extends Component {
                                             </div>
                                             {this.props.data.postImage && <div className="row mt-3 mr-2 mb-3 postImage">
                                                 <div className="col-6">
-                                                    <img className="img-fluid" src={`http://localhost:5000/static/posts/${this.props.data.postImage}`} />
+                                                    <img className="img-fluid" src={`https://twittercloneflask.herokuapp.com/static/posts/${this.props.data.postImage}`} />
                                                 </div>
                                             </div>}
                                             <div className="row">
@@ -185,7 +185,7 @@ export class tweet extends Component {
                     <div className="col-12">
                         <div className="row">
                             <div className="col-2">
-                                <img style={{ height: "50px", borderRadius: "50%" }} src={`http://localhost:5000/static/profiles/${this.props.data.image}`} />
+                                <img style={{ height: "50px", borderRadius: "50%" }} src={`https://twittercloneflask.herokuapp.com/static/profiles/${this.props.data.image}`} />
                             </div>
                             <div className="col-10">
                                 <div className="row">
@@ -197,7 +197,7 @@ export class tweet extends Component {
                                 </div>
                                 {this.props.data.postImage && <div className="row mt-3 mr-2 mb-3 border postImage">
                                     <div className="col-12">
-                                        <img className="image-fluid" src={`http://localhost:5000/static/posts/${this.props.data.postImage}`} />
+                                        <img className="image-fluid" src={`https://twittercloneflask.herokuapp.com/static/posts/${this.props.data.postImage}`} />
                                     </div>
                                 </div>}
                                 <div className="row">
@@ -227,7 +227,7 @@ export class tweet extends Component {
                                 <div className="modal-body">
                                     <div className="row border">
                                         <div className="col-1 p-1">
-                                            <img style={{ height: "50px", borderRadius: "50%" }} src={`http://localhost:5000/static/profiles/${this.props.userInfo.profile}`} />
+                                            <img style={{ height: "50px", borderRadius: "50%" }} src={`https://twittercloneflask.herokuapp.com/static/profiles/${this.props.userInfo.profile}`} />
                                         </div>
                                         <div className="retweetDiv col-11">
                                             <input placeholder="comments" onChange={(e) => this.handleChange(e)} />
@@ -237,7 +237,7 @@ export class tweet extends Component {
                                                 </div>
                                                 {this.props.data.postImage && <div className="row mt-3 mr-2 mb-3 border postImage">
                                                     <div className="col-12">
-                                                        <img className="img-fluid" src={`http://localhost:5000/static/posts/${this.props.data.postImage}`} />
+                                                        <img className="img-fluid" src={`https://twittercloneflask.herokuapp.com/static/posts/${this.props.data.postImage}`} />
                                                     </div>
                                                 </div>}
                                             </div>

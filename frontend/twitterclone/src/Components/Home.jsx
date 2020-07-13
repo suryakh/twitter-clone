@@ -60,7 +60,7 @@ export class Home extends Component {
                 </div>
                 <div className="row tweetDiv pt-4">
                     <div className="col-1 p-1">
-                        <img style={{ height: "50px", borderRadius: "50%" }} src={`http://localhost:5000/static/profiles/${this.props.userInfo.profile}`} />
+                        <img style={{ height: "50px", borderRadius: "50%" }} src={`https://twittercloneflask.herokuapp.com/static/profiles/${this.props.userInfo.profile}`} />
                     </div>
                     <div className="col-11">
                         <input type="text" placeholder="What's happening?" value={this.state.tweet} onChange={(e) => this.handleChange(e)} />

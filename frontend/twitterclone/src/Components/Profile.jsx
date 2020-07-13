@@ -28,7 +28,7 @@ export class Profile extends Component {
         }
     }
     render() {
-        console.log(this.props.appdata.uniqueUserName)
+        console.log(this.props.appdata.userProfile.Name)
         return (
             <>
                 <div className="row border pt-3">
@@ -43,7 +43,7 @@ export class Profile extends Component {
                 <div className="row">
                     <div className="col-4">
                         <div className="profilPic">
-                            <img className="img-fluid rounded-circle" src={`http://localhost:5000/static/profiles/${this.props.appdata.userProfile.image}`} />
+                            <img className="img-fluid rounded-circle" src={`https://twittercloneflask.herokuapp.com/static/profiles/${this.props.appdata.userProfile.image}`} />
                         </div>
                         <div>
                             <h3>{this.props.appdata.userProfile.userName}</h3>
@@ -101,7 +101,7 @@ export class Profile extends Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <Editprofile />
+                                {this.props.appdata.userProfile.userName && <Editprofile />}
                             </div>
                             {/* <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>

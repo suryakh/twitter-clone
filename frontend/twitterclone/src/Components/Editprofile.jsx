@@ -11,11 +11,11 @@ export class Editprofile extends Component {
             Bio: this.props.appdata.userProfile.userBio,
             DateOfBirth: this.props.appdata.userProfile.dateOfBirth,
             Profile: "",
-            image:`http://localhost:5000/static/profiles/${this.props.appdata.userProfile.image}`
+            image:`https://twittercloneflask.herokuapp.com/static/profiles/${this.props.appdata.userProfile.image}`
         }
     }
     componentDidMount() {
-        // console.log(this.props.appdata.userProfile)
+        console.log(this.props.appdata.userProfile)
 
     }
     handleChange = (e) => {

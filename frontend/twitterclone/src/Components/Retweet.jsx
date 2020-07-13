@@ -22,7 +22,7 @@ export class Retweet extends Component {
         return (
             <div className="row border">
                 <div className="col-1 p-1">
-                    <img style={{ height: "50px", borderRadius: "50%" }} src={`http://localhost:5000/static/profiles/${this.props.userInfo.profile}`} />
+                    <img style={{ height: "50px", borderRadius: "50%" }} src={`https://twittercloneflask.herokuapp.com/static/profiles/${this.props.userInfo.profile}`} />
                 </div>
                 <div className="retweetDiv col-11">
                     <input placeholder="comments" />
@@ -32,7 +32,7 @@ export class Retweet extends Component {
                         </div>
                         {this.props.data.postImage && <div className="row mt-3 mr-2 mb-3 border postImage">
                             <div className="col-12">
-                                <img className="image-fluid" src={`http://localhost:5000/static/posts/${this.props.data.postImage}`} />
+                                <img className="image-fluid" src={`https://twittercloneflask.herokuapp.com/static/posts/${this.props.data.postImage}`} />
                             </div>
                         </div>}
                     </div>

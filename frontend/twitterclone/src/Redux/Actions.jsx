@@ -87,7 +87,7 @@ const follow = (id, token) => {
     return dispatch => {
         axios({
             method: "POST",
-            url: `http://localhost:5000/profile/follow/${id}`,
+            url: `https://twittercloneflask.herokuapp.com/profile/follow/${id}`,
             headers: {
                 'Authorization': token
             },
@@ -99,7 +99,7 @@ const followingProfiles = (token, id) => {
     return dispatch => {
         axios({
             method: "GET",
-            url: `http://localhost:5000/profile/following/${id}`,
+            url: `https://twittercloneflask.herokuapp.com/profile/following/${id}`,
             headers: {
                 'Authorization': token
             },
@@ -111,7 +111,7 @@ const signupUser = (data) => {
     return dispatch => {
         axios({
             method: "POST",
-            url: "http://localhost:5000/auth/signup",
+            url: "https://twittercloneflask.herokuapp.com/auth/signup",
             data: data
         })
             .then((res) => alert("successfully registered"))
@@ -122,7 +122,7 @@ const loginUser = (data) => {
     return dispatch => {
         axios({
             method: "POST",
-            url: "http://localhost:5000/auth/login",
+            url: "https://twittercloneflask.herokuapp.com/auth/login",
             data: data
         })
             .then((res) => { dispatch(login(res.data)) })
@@ -133,7 +133,7 @@ const userDetails = (data, token) => {
         dispatch(apirequestsent())
         axios({
             method: "GET",
-            url: `http://localhost:5000/profile/user/${data}`,
+            url: `https://twittercloneflask.herokuapp.com/profile/user/${data}`,
             headers: {
                 'Authorization': token
             },
@@ -147,7 +147,7 @@ const getUnFollowedUsers = (token) => {
         dispatch(apirequestsent())
         axios({
             method: "GET",
-            url: "http://localhost:5000/profile/unfollowers",
+            url: "https://twittercloneflask.herokuapp.com/profile/unfollowers",
             headers: {
                 'Authorization': token
             }
@@ -160,7 +160,7 @@ const followersData = (token, id) => {
     return dispatch => {
         axios({
             method: "GET",
-            url: `http://localhost:5000/profile/followers/${id}`,
+            url: `https://twittercloneflask.herokuapp.com/profile/followers/${id}`,
             headers: {
                 'Authorization': token
             },
@@ -173,7 +173,7 @@ const postTheTweet = (token, data) => {
     return dispatch => {
         axios({
             method: "POST",
-            url: "http://localhost:5000/tweet/post",
+            url: "https://twittercloneflask.herokuapp.com/tweet/post",
             headers: {
                 'Authorization': token
             },
@@ -188,7 +188,7 @@ const getAllTweets = (token) =>{
     return dispatch => {
         axios ({
             method:"GET",
-            url:"http://localhost:5000/tweet/alltweets",
+            url:"https://twittercloneflask.herokuapp.com/tweet/alltweets",
             headers:{
                 'Authorization': token
             }
@@ -200,7 +200,7 @@ const retweet = (id,comment,token)=>{
     return dispatch=>{
         axios({
             method:"POST",
-            url:`http://localhost:5000/tweet/retweet/${id}`,
+            url:`https://twittercloneflask.herokuapp.com/tweet/retweet/${id}`,
             headers:{
                 'Authorization': token
             },
@@ -215,7 +215,7 @@ const likeTweet = (id,token) =>{
     return dispatch =>{
         axios({
             method:"POST",
-            url:`http://localhost:5000/tweet/likes/${id}`,
+            url:`https://twittercloneflask.herokuapp.com/tweet/likes/${id}`,
             headers:{
                 'Authorization': token
             }
@@ -228,7 +228,7 @@ const updateProfile = (data,token) =>{
     return dispatch =>{
         axios({
             method:"POST",
-            url:`http://localhost:5000/profile/updateProfile`,
+            url:`https://twittercloneflask.herokuapp.com/profile/updateProfile`,
             headers:{
                 'Authorization': token
             },

@@ -18,7 +18,7 @@ export class Followers extends Component {
                     {this.props.appData.followers.map((ele) => <div className="col-12">
                         <div className="row" >
                             <div className="col-3 ">
-                                <img style={{ height: "50px", borderRadius: "50%" }} src={`http://localhost:5000/static/profiles/${ele.image}`} />
+                                <img style={{ height: "50px", borderRadius: "50%" }} src={`https://twittercloneflask.herokuapp.com/static/profiles/${ele.image}`} />
                             </div>
                             <div className="col-6">
                                 <div> <Link to={`/profile/${ele.uniqueUserName}`}><h5>{ele.userName}</h5></Link>
