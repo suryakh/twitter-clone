@@ -124,6 +124,7 @@ def updateProfile():
     encoded_Data = token.split(' ')[0]
     try:
         userData = jwt.decode(encoded_Data,'users',algorithms=['HS256'])
+        cursor = mysql.connection.cursor()
         if image:
             print(image)
             imagename = request.files['image']
@@ -133,7 +134,6 @@ def updateProfile():
             imagename.save(location)
             num = random.randint(0,99999)
             uniqueUserName = userName+str(num)
-            cursor = mysql.connection.cursor()
             cursor.execute(
                 """UPDATE users SET username = %s, email = %s,userBio = %s,image = %s ,dateOfBirth = %s where id = %s""",(userName,email,userBio,destination,dateOfBirth,userData['id'])
             )
@@ -143,7 +143,6 @@ def updateProfile():
                 """UPDATE users SET username = %s, email = %s,userBio = %s,dateOfBirth = %s where id = %s""",(userName,email,userBio,dateOfBirth,userData['id'])
             )
             mysql.connection.commit()
-        print("hello")
         cursor.close()
         return json.dumps({"message":"updated"})
     except:
